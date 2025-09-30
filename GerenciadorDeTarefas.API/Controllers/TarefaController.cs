@@ -1,4 +1,5 @@
-﻿using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTodos;
+﻿using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTarefaPorId;
+using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTodos;
 using GerenciadorDeTarefas.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,5 +21,18 @@ public class TarefaController : GerenciadorDeTarefasBaseController
         }
 
         return NoContent();
+    }
+
+
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(typeof(ResponseTarefaCompleta), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult BuscarTarefaPorId(int id)
+    {
+        var buscarTarefaPorIdUserCase = new BuscarTarefaPorIdUseCase();
+        var response = buscarTarefaPorIdUserCase.Execute(id);
+
+        return Ok(response);
     }
 }
