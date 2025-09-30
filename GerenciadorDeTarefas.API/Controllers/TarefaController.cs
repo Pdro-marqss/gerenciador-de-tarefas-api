@@ -1,5 +1,7 @@
 ﻿using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTarefaPorId;
 using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTodos;
+using GerenciadorDeTarefas.Application.UseCases.Tarefa.CriarTarefa;
+using GerenciadorDeTarefas.Communication.Requests;
 using GerenciadorDeTarefas.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,5 +36,16 @@ public class TarefaController : GerenciadorDeTarefasBaseController
         var response = buscarTarefaPorIdUserCase.Execute(id);
 
         return Ok(response);
+    }
+
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public IActionResult CriarUmaTarefa([FromBody] RequestTarefa request)
+    {
+        var criarTarefaUseCase = new CriarTarefaUseCase();
+        var response = criarTarefaUseCase.Execute(request);
+
+        return Created(string.Empty, response);
     }
 }
