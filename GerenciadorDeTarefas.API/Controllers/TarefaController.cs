@@ -1,4 +1,5 @@
-﻿using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTarefaPorId;
+﻿using GerenciadorDeTarefas.Application.UseCases.Tarefa.AtualizarTarefa;
+using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTarefaPorId;
 using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTodos;
 using GerenciadorDeTarefas.Application.UseCases.Tarefa.CriarTarefa;
 using GerenciadorDeTarefas.Communication.Requests;
@@ -47,5 +48,18 @@ public class TarefaController : GerenciadorDeTarefasBaseController
         var response = criarTarefaUseCase.Execute(request);
 
         return Created(string.Empty, response);
+    }
+
+
+    [HttpPut]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public IActionResult AtualizarUmaTarefa([FromRoute] int id, [FromBody] RequestTarefa request)
+    {
+        var atualizarTarefaUseCase = new AtualizarTarefaUseCase();
+        atualizarTarefaUseCase.Execute(id, request);
+
+        return NoContent();
     }
 }
