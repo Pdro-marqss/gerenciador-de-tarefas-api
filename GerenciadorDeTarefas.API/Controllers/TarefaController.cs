@@ -2,6 +2,7 @@
 using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTarefaPorId;
 using GerenciadorDeTarefas.Application.UseCases.Tarefa.BuscarTodos;
 using GerenciadorDeTarefas.Application.UseCases.Tarefa.CriarTarefa;
+using GerenciadorDeTarefas.Application.UseCases.Tarefa.DeletarTarefa;
 using GerenciadorDeTarefas.Communication.Requests;
 using GerenciadorDeTarefas.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,19 @@ public class TarefaController : GerenciadorDeTarefasBaseController
     {
         var atualizarTarefaUseCase = new AtualizarTarefaUseCase();
         atualizarTarefaUseCase.Execute(id, request);
+
+        return NoContent();
+    }
+
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult DeletarUmaTarefaPorId([FromRoute] int id)
+    {
+        var deletarTarefaPorIdUseCase = new DeletarTarefaPorIdUseCase();
+        deletarTarefaPorIdUseCase.Execute(id);
 
         return NoContent();
     }
